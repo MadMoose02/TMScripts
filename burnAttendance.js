@@ -47,8 +47,23 @@
         }
     }
 
+    document.addEventListener("click", function(e) {
+        console.log("There was an attempt!");
+        let itemClicked = e.target;
+        let classes = itemClicked.className.split(' ');
+        for (let one in classes) {
+            if (classes[one] == "arrow") {
+                setTimeout(burnTheShits(), 2500);
+                return;
+            }
+        }
+    });
+
     setTimeout(function() {
-        (getResults() === true) ? burnTheShits() : console.log("Could not burn the attendance!");
+        if (getResults() === false) console.log("Could not burn the attendance!");
+
+        // Send initial call
+        burnTheShits();
     }, 2499);
 
 })();
