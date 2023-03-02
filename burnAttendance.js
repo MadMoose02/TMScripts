@@ -84,6 +84,18 @@
         });
     }
 
+    document.addEventListener("click", function(e) {
+        console.log("There was an attempt!");
+        let itemClicked = e.target;
+        let classes = itemClicked.className.split(' ');
+        for (let one in classes) {
+            if (classes[one] == "arrow") {
+                setTimeout(burnTheShits(), 2500);
+                return;
+            }
+        }
+    });
+
     // On enter page match
     setTimeout(function() {
         burnTheShits();
