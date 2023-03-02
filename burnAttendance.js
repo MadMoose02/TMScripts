@@ -29,11 +29,13 @@
     }
 
     function burnTheShits() {
-        let numSidePanel = 0, numCalendarView = 0;
+        let numSidePanel = 0, numCalendarView = 0, numUpcoming = 0;
         if (!getResults()) {
             console.error("COULD NOT BURN THE SHITS (attendance)");
             return;
         };
+
+        // Mini calendar-view in side panel
         for (let one in calendarObjects) {
             let currDayObj = calendarObjects[one];
             let numEvents = String(currDayObj.outerText).split(",")[0].trim();
@@ -52,7 +54,19 @@
                 numSidePanel++;
             }
         }
-        console.log(`Burnt ${numSidePanel} in side-panel`);
+        console.log(`Burnt ${numSidePanel} in mini-calendar`);
+
+        // Side panel upcoming events
+        let upcomingObjects = document.querySelectorAll("div.event");
+        if (upcomingObjects.length > 0) {
+            upcomingObjects.forEach((event) => {
+                if (event.outerText.includes("Attendance")) {
+                    event.style.display = "none";
+                    numUpcoming++;
+                }
+            })
+            console.log(`Burnt ${numUpcoming} in upcoming events`);
+        }
 
         // In calendar view, remove all the attendance data regions
         if (document.URL.includes("calendar")) {
@@ -66,7 +80,7 @@
             let title = document.querySelector("h2.current").outerText;
             console.log(`Burnt ${numCalendarView} in calendar-view for ${title}`);
         }
-        console.log(`TOTAL BURNT => ${numCalendarView + numSidePanel}`)
+        console.log(`TOTAL BURNT => ${numCalendarView + numSidePanel + numUpcoming}`)
     }
 
     // Handle pagination controls
@@ -79,7 +93,7 @@
                     console.log("Navigation detected. BURN THE SHITS AGAIN");
                     burnTheShits();
                     paginationHandler();
-                }, 2499);
+                }, 1499);
             });
         });
     }
@@ -88,7 +102,7 @@
     setTimeout(function() {
         burnTheShits();
         paginationHandler();
-    }, 2499);
+    }, 2899);
 
 
 })();
