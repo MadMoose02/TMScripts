@@ -12,8 +12,9 @@
 (function() {
     'use strict';
     let calendarObjects = [];
+    let listItemObjects = [];
     let attendanceIconURL = `https://myelearning.sta.uwi.edu/theme/image.php/boost/attendance/`
-    let findString = "td.hasevent";
+    let findString = "td.day";
     let rmClass = "calendar_event_course"; // Class to remove from the calendar objects
 
     function getResults() {
@@ -28,6 +29,11 @@
     }
 
     function burnTheShits() {
+        let numSidePanel = 0, numCalendarView = 0;
+        if (!getResults()) {
+            console.error("COULD NOT BURN THE SHITS (attendance)");
+            return;
+        };
         for (let one in calendarObjects) {
             let currDayObj = calendarObjects[one];
             let numEvents = String(currDayObj.outerText).split(",")[0].trim();
@@ -42,13 +48,47 @@
 
                 // Re-assign class values without 'rmClass' value
                 currDayObj.attributes[0].nodeValue = origVal.split(rmClass).join(" ");
-                console.log(`BURNT -> ${currDayObjTitle}`);
+                // console.log(`BURNT -> ${currDayObjTitle}`);
+                numSidePanel++;
             }
         }
+        console.log(`Burnt ${numSidePanel} in side-panel`);
+        
+        // In calendar view, remove all the attendance data regions
+        if (document.URL.includes("calendar")) {
+            listItemObjects = document.querySelectorAll("li");
+            listItemObjects.forEach((listItem) => {
+                if (listItem.outerText.includes("Attendance")) {
+                    listItem.style.display = "none";
+                    numCalendarView++;
+                } 
+            })
+            let title = document.querySelector("h2.current").outerText;
+            console.log(`Burnt ${numCalendarView} in calendar-view for ${title}`);
+        }
+        console.log(`TOTAL BURNT => ${numCalendarView + numSidePanel}`)
     }
 
+    // Handle pagination controls
+    function paginationHandler() {
+        let paginationObjects = document.querySelectorAll("a.arrow_link");
+        if (paginationObjects.length < 1) return;
+        paginationObjects.forEach((navButton) => {
+            navButton.addEventListener("click", function() {
+                setTimeout(function() {
+                    console.log("Navigation detected. BURN THE SHITS AGAIN");
+                    burnTheShits();
+                    paginationHandler();
+                }, 2499);
+            });
+        });
+    }
+
+    // On enter page match
     setTimeout(function() {
-        (getResults() === true) ? burnTheShits() : console.log("Could not burn the attendance!");
+        burnTheShits();
+        paginationHandler();
     }, 2499);
+
 
 })();
