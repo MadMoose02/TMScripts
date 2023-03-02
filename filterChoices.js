@@ -13,7 +13,8 @@
     'use strict';
 
     let choicesObj = [];
-    console.log("Will filter choices in 3 secs ...");
+    let delay = 1400;
+    console.log(`Will filter choices in ${delay} milli-seconds ...`);
 
     setTimeout(function() {
         let numFull = 0;
@@ -25,6 +26,6 @@
                 numFull++;
             }
         });
-        console.log(`Modified ${numFull} objects`)
-    }, 3000);
+        console.log(`Modified ${numFull} choice objects`)
+    }, delay);
 })();
