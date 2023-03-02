@@ -19,10 +19,10 @@
 
     function getResults() {
         console.log("Fetching all calendar objects that contain events");
-        try { 
-            calendarObjects = Array.from(document.querySelectorAll(findString)); 
+        try {
+            calendarObjects = Array.from(document.querySelectorAll(findString));
             return true
-        } catch (e) { 
+        } catch (e) {
             console.log("Could not fetch calendar objects. Error details below.\n", e);
             return false
         }
@@ -53,7 +53,7 @@
             }
         }
         console.log(`Burnt ${numSidePanel} in side-panel`);
-        
+
         // In calendar view, remove all the attendance data regions
         if (document.URL.includes("calendar")) {
             listItemObjects = document.querySelectorAll("li");
@@ -61,7 +61,7 @@
                 if (listItem.outerText.includes("Attendance")) {
                     listItem.style.display = "none";
                     numCalendarView++;
-                } 
+                }
             })
             let title = document.querySelector("h2.current").outerText;
             console.log(`Burnt ${numCalendarView} in calendar-view for ${title}`);
@@ -83,18 +83,6 @@
             });
         });
     }
-
-    document.addEventListener("click", function(e) {
-        console.log("There was an attempt!");
-        let itemClicked = e.target;
-        let classes = itemClicked.className.split(' ');
-        for (let one in classes) {
-            if (classes[one] == "arrow") {
-                setTimeout(burnTheShits(), 2500);
-                return;
-            }
-        }
-    });
 
     // On enter page match
     setTimeout(function() {
