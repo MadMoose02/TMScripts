@@ -12,5 +12,5 @@
 (function() {
     'use strict';
     console.log("Executing myELAuto.js to auto sign-in to myeLearning");
-    setTimeout(document.querySelector("a.btn[title='Student Login']").click(), 500);
+    setTimeout(document.querySelector("a.btn").click(), 500);
 })();
